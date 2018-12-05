@@ -1,38 +1,61 @@
 extends KinematicBody2D
 
-var ACELERACION = 2 * 1000
-var VELOCIDAD_MAXIMA = 40 * 1000
+#Constantes globales
+export var ACELERACION = 2000
+export var SALTO = 50000
+export var VELOCIDAD_MAXIMA_X = 40000
+export var VELOCIDAD_MAXIMA_Y = 40000
 
-var GRAVEDAD = Vector2(0,-980)
-var FRICCION = 0.1
+export var GRAVEDAD = Vector2(0,-1500)
+export var FRICCION = 0.1
 
+#Variables auxiliares
 var velocidad = Vector2(0,0)
 var aceleracion = Vector2(0,0)
 
 
+enum ESTADO{
+	QUIETO,
+	SALTANDO,
+	GOLPEANDO,
+	GOLPEADO
+}
+var estado = ESTADO.QUIETO
+
 var right = false
 var left = false
 var up = false
-
+	
 func _physics_process(delta):
 	accionar()
 	get_acciones()
 	acelerar()
-	move_and_slide(velocidad * delta)
+	move_and_slide(velocidad * delta,Vector2(0,-1))
 	
 func get_acciones():
 	aceleracion = Vector2(0,0)
-	if right:
-		aceleracion.x = 1
-	if left:
-		aceleracion.x = -1
-	if up:
-		aceleracion.y -= 1
-	aceleracion = aceleracion.normalized() * ACELERACION
+	#Obtener movimiento horizontal
+	var x = int(right) - int(left)
+	#Girar el Sprite
+	if x!=0: $sprite.flip_h = x<0 
+	
+	if is_on_floor():
+		velocidad.y = 0
+		if up:
+			aceleracion.y -= SALTO
+	aceleracion.x = x*ACELERACION
 	
 func acelerar():
 	aceleracion -= GRAVEDAD
-	velocidad -= velocidad*FRICCION
+	velocidad.x -= velocidad.x*FRICCION
 	var nuevaVel = velocidad+aceleracion
-	if nuevaVel.length() < VELOCIDAD_MAXIMA:
-		velocidad += aceleracion
+	if nuevaVel.x < VELOCIDAD_MAXIMA_X:
+		velocidad.x += aceleracion.x
+	if nuevaVel.y < VELOCIDAD_MAXIMA_Y:
+		velocidad.y += aceleracion.y
+		
+func golpear():
+	if(estado == ESTADO.QUIETO):
+		$sprite.set_frame(1)
+		estado = ESTADO.GOLPEANDO
+	

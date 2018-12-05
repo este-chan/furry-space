@@ -122,9 +122,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -936.0
+margin_left = -937.0
 margin_top = -315.0
-margin_right = 1464.0
+margin_right = 1463.0
 margin_bottom = 585.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -154,13 +154,22 @@ shape = SubResource( 2 )
 
 [node name="pj1" type="KinematicBody2D" parent="." index="1"]
 
-position = Vector2( 311.108, 334.291 )
+position = Vector2( 63.3172, 335.171 )
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 7 )
 _sections_unfolded = [ "Collision" ]
+__meta__ = {
+"_edit_group_": true
+}
+ACELERACION = 2000
+SALTO = 50000
+VELOCIDAD_MAXIMA_X = 40000
+VELOCIDAD_MAXIMA_Y = 40000
+GRAVEDAD = Vector2( 0, -1500 )
+FRICCION = 0.1
 
 [node name="Camera2D" type="Camera2D" parent="pj1" index="0"]
 
@@ -190,7 +199,7 @@ editor_draw_drag_margin = false
 
 [node name="vulnerable" type="CollisionShape2D" parent="pj1" index="1"]
 
-position = Vector2( -11.3118, -46.2339 )
+position = Vector2( -5.08728, -45.1607 )
 scale = Vector2( 2.01238, 5.88869 )
 shape = SubResource( 3 )
 
@@ -211,9 +220,12 @@ collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 9 )
 _sections_unfolded = [ "Collision" ]
-__meta__ = {
-"_edit_group_": true
-}
+ACELERACION = 2000
+SALTO = 50000
+VELOCIDAD_MAXIMA_X = 40000
+VELOCIDAD_MAXIMA_Y = 40000
+GRAVEDAD = Vector2( 0, -1500 )
+FRICCION = 0.1
 
 [node name="Camera2D" type="Camera2D" parent="pj2" index="0"]
 
