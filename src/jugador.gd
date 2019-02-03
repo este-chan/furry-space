@@ -7,7 +7,8 @@ var bt_hit = "ui_accept"
 
 func _ready():
 	pass
-
+func _process(delta):
+	accionar()
 func accionar():
 	if Input.is_action_pressed(bt_right):
 		right = true

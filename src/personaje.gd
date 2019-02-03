@@ -27,7 +27,6 @@ var left = false
 var up = false
 	
 func _physics_process(delta):
-	accionar()
 	get_acciones()
 	acelerar()
 	move_and_slide(velocidad * delta,Vector2(0,-1))
