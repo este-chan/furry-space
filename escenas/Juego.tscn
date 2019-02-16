@@ -96,13 +96,6 @@ script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
-_sections_unfolded = [ "Collision" ]
-ACELERACION = 2000
-SALTO = 50000
-VELOCIDAD_MAXIMA_X = 40000
-VELOCIDAD_MAXIMA_Y = 40000
-GRAVEDAD = Vector2( 0, -1500 )
-FRICCION = 0.1
 
 [node name="Camera2D" type="Camera2D" parent="pj1"]
 position = Vector2( -12.0588, 0 )
@@ -130,13 +123,6 @@ script = ExtResource( 8 )
 __meta__ = {
 "_edit_group_": true
 }
-_sections_unfolded = [ "Collision" ]
-ACELERACION = 2000
-SALTO = 50000
-VELOCIDAD_MAXIMA_X = 40000
-VELOCIDAD_MAXIMA_Y = 40000
-GRAVEDAD = Vector2( 0, -1500 )
-FRICCION = 0.1
 
 [node name="Camera2D" type="Camera2D" parent="pj2"]
 position = Vector2( -7, -126 )
