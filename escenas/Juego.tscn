@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/Juego.gd" type="Script" id=1]
 [ext_resource path="res://assets/escenarios/bosque/capa5.png" type="Texture" id=2]
@@ -21,6 +21,39 @@ extents = Vector2( 1231.67, 10 )
 [sub_resource type="RectangleShape2D" id=3]
 
 extents = Vector2( 10, 11.3384 )
+
+[sub_resource type="RectangleShape2D" id=4]
+
+extents = Vector2( 9.05445, 1.12435 )
+
+[sub_resource type="Animation" id=5]
+
+resource_name = "golpear"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("golpeando:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [node name="Juego" type="Node"]
 script = ExtResource( 1 )
@@ -90,19 +123,8 @@ scale = Vector2( 3.19993, 37.4394 )
 shape = SubResource( 2 )
 
 [node name="pj1" type="KinematicBody2D" parent="."]
-editor/display_folded = true
 position = Vector2( 63.3172, 335.171 )
 script = ExtResource( 6 )
-__meta__ = {
-"_edit_group_": true
-}
-_sections_unfolded = [ "Collision" ]
-ACELERACION = 2000
-SALTO = 50000
-VELOCIDAD_MAXIMA_X = 40000
-VELOCIDAD_MAXIMA_Y = 40000
-GRAVEDAD = Vector2( 0, -1500 )
-FRICCION = 0.1
 
 [node name="Camera2D" type="Camera2D" parent="pj1"]
 position = Vector2( -12.0588, 0 )
@@ -117,14 +139,23 @@ position = Vector2( -5.08728, -45.1607 )
 scale = Vector2( 2.01238, 5.88869 )
 shape = SubResource( 3 )
 
+[node name="golpeando" type="CollisionShape2D" parent="pj1"]
+modulate = Color( 0.976471, 0.270588, 0.270588, 1 )
+position = Vector2( 8.58095, -45.5707 )
+scale = Vector2( 2.01238, 5.88869 )
+shape = SubResource( 4 )
+disabled = true
+
 [node name="sprite" type="Sprite" parent="pj1"]
 position = Vector2( -6.1293, -54.0917 )
 scale = Vector2( 0.226251, 0.226251 )
 texture = ExtResource( 7 )
 vframes = 2
 
+[node name="animacion" type="AnimationPlayer" parent="pj1"]
+anims/golpear = SubResource( 5 )
+
 [node name="pj2" type="KinematicBody2D" parent="."]
-editor/display_folded = true
 position = Vector2( 196.504, 333.803 )
 script = ExtResource( 8 )
 __meta__ = {
@@ -153,9 +184,10 @@ texture = ExtResource( 9 )
 vframes = 2
 
 [node name="capa1" type="TextureRect" parent="."]
-margin_left = -937.0
-margin_top = -315.0
-margin_right = 1463.0
-margin_bottom = 585.0
+visible = false
+margin_left = -935.983
+margin_top = -315.062
+margin_right = 1464.02
+margin_bottom = 584.938
 texture = ExtResource( 10 )
 

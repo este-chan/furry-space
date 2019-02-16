@@ -12,7 +12,7 @@ export var FRICCION = 0.1
 #Variables auxiliares
 var velocidad = Vector2(0,0)
 var aceleracion = Vector2(0,0)
-
+var x
 
 enum ESTADO{
 	QUIETO,
@@ -34,9 +34,9 @@ func _physics_process(delta):
 func get_acciones():
 	aceleracion = Vector2(0,0)
 	#Obtener movimiento horizontal
-	var x = int(right) - int(left)
+	x = int(right) - int(left)
 	#Girar el Sprite
-	if x!=0: $sprite.flip_h = x<0 
+	if x!=0: scale.x = x
 	
 	if is_on_floor():
 		velocidad.y = 0
@@ -54,7 +54,6 @@ func acelerar():
 		velocidad.y += aceleracion.y
 		
 func golpear():
-	if(estado == ESTADO.QUIETO):
-		$sprite.set_frame(1)
-		estado = ESTADO.GOLPEANDO
+	$animacion.play('golpear')
+	#estado = ESTADO.GOLPEANDO
 	
