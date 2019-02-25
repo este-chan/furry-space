@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://src/Juego.gd" type="Script" id=1]
 [ext_resource path="res://assets/escenarios/bosque/capa5.png" type="Texture" id=2]
@@ -18,20 +18,12 @@ extents = Vector2( 1231.67, 10 )
 [sub_resource type="RectangleShape2D" id=2]
 
 
-[sub_resource type="RectangleShape2D" id=3]
-
-extents = Vector2( 10, 11.3384 )
-
-[sub_resource type="RectangleShape2D" id=4]
-
-extents = Vector2( 9.05445, 1.12435 )
-
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 
 resource_name = "golpear"
 length = 0.2
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
+tracks/0/path = NodePath("cuerpo/sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -43,7 +35,44 @@ tracks/0/keys = {
 "values": [ 1, 0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("golpeando:disabled")
+tracks/1/path = NodePath("cuerpo/puno:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="RectangleShape2D" id=4]
+
+extents = Vector2( 9.05445, 1.12435 )
+
+[sub_resource type="RectangleShape2D" id=5]
+
+extents = Vector2( 10, 11.3384 )
+
+[sub_resource type="Animation" id=6]
+
+resource_name = "golpear"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("cuerpo/sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("cuerpo/puno:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -96,7 +125,6 @@ margin_bottom = 585.0
 texture = ExtResource( 4 )
 
 [node name="ParallaxLayer4" type="ParallaxLayer" parent="mapa/ParallaxBackground"]
-editor/display_folded = true
 
 [node name="capa2" type="TextureRect" parent="mapa/ParallaxBackground/ParallaxLayer4"]
 margin_left = -936.0
@@ -137,26 +165,28 @@ limit_left = -935
 limit_top = -300
 limit_right = 1450
 
-[node name="vulnerable" type="CollisionShape2D" parent="pj1"]
-position = Vector2( -5.08728, -45.1607 )
-scale = Vector2( 2.01238, 5.88869 )
-shape = SubResource( 3 )
+[node name="animacion" type="AnimationPlayer" parent="pj1"]
+anims/golpear = SubResource( 3 )
 
-[node name="golpeando" type="CollisionShape2D" parent="pj1"]
+[node name="cuerpo" type="Area2D" parent="pj1"]
+
+[node name="puno" type="CollisionShape2D" parent="pj1/cuerpo"]
 modulate = Color( 0.976471, 0.270588, 0.270588, 1 )
 position = Vector2( 8.58095, -45.5707 )
 scale = Vector2( 2.01238, 5.88869 )
 shape = SubResource( 4 )
 disabled = true
 
-[node name="sprite" type="Sprite" parent="pj1"]
+[node name="sprite" type="Sprite" parent="pj1/cuerpo"]
 position = Vector2( -6.1293, -54.0917 )
 scale = Vector2( 0.226251, 0.226251 )
 texture = ExtResource( 7 )
 vframes = 2
 
-[node name="animacion" type="AnimationPlayer" parent="pj1"]
-anims/golpear = SubResource( 5 )
+[node name="vulnerable" type="CollisionShape2D" parent="pj1"]
+position = Vector2( -5.08728, -45.1607 )
+scale = Vector2( 2.01238, 5.88869 )
+shape = SubResource( 5 )
 
 [node name="pj2" type="KinematicBody2D" parent="."]
 position = Vector2( 196.504, 333.803 )
@@ -171,9 +201,22 @@ position = Vector2( -7, -126 )
 [node name="vulnerable" type="CollisionShape2D" parent="pj2"]
 position = Vector2( -11.3118, -46.2339 )
 scale = Vector2( 2.01238, 5.88869 )
-shape = SubResource( 3 )
+shape = SubResource( 5 )
 
-[node name="sprite" type="Sprite" parent="pj2"]
+[node name="animacion" type="AnimationPlayer" parent="pj2"]
+anims/golpear = SubResource( 6 )
+
+[node name="cuerpo" type="Area2D" parent="pj2"]
+
+[node name="puno" type="CollisionShape2D" parent="pj2/cuerpo"]
+modulate = Color( 0.976471, 0.270588, 0.270588, 1 )
+position = Vector2( 27.681, -60.5687 )
+rotation = -0.699535
+scale = Vector2( 3.33923, -5.79527 )
+shape = SubResource( 4 )
+disabled = true
+
+[node name="sprite" type="Sprite" parent="pj2/cuerpo"]
 position = Vector2( -6.1293, -54.0917 )
 scale = Vector2( 0.226251, 0.226251 )
 texture = ExtResource( 9 )
@@ -187,3 +230,5 @@ margin_right = 1464.02
 margin_bottom = 584.938
 texture = ExtResource( 10 )
 
+[connection signal="body_entered" from="pj1/cuerpo" to="pj1" method="_on_cuerpo_body_entered"]
+[connection signal="body_entered" from="pj2/cuerpo" to="pj2" method="_on_cuerpo_body_entered"]

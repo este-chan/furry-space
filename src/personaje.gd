@@ -31,12 +31,14 @@ func _physics_process(delta):
 	acelerar()
 	move_and_slide(velocidad * delta,Vector2(0,-1))
 	
+	
 func get_acciones():
 	aceleracion = Vector2(0,0)
 	#Obtener movimiento horizontal
 	x = int(right) - int(left)
 	#Girar el Sprite
-	if x!=0: scale.x = x
+	if x!=0:
+		$cuerpo.scale.x = x
 	
 	if is_on_floor():
 		velocidad.y = 0
@@ -56,4 +58,8 @@ func acelerar():
 func golpear():
 	$animacion.play('golpear')
 	#estado = ESTADO.GOLPEANDO
+
+func golpeado(dir):
+	print('golpeado')
 	
+	velocidad += Vector2(50000*dir, 0)

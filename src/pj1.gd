@@ -10,3 +10,7 @@ func _ready():
 	bt_hit = "pj_hit"
 
 
+
+func _on_cuerpo_body_entered(body):
+	if body is preload("res://src/pj2.gd"):
+		body.golpeado(get_node('cuerpo').scale.x)
