@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/Juego.gd" type="Script" id=1]
 [ext_resource path="res://assets/escenarios/bosque/capa5.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://src/pj2.gd" type="Script" id=8]
 [ext_resource path="res://assets/personajes/sprite02.png" type="Texture" id=9]
 [ext_resource path="res://assets/escenarios/bosque/capa1.png" type="Texture" id=10]
+[ext_resource path="res://src/HUD.gd" type="Script" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -47,6 +48,22 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
+[sub_resource type="Animation" id=7]
+
+resource_name = "morir"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 5.65684, 0.138697 ),
+"update": 0,
+"values": [ 0.0, 90.0 ]
+}
+
 [sub_resource type="RectangleShape2D" id=4]
 
 extents = Vector2( 9.05445, 1.12435 )
@@ -55,7 +72,7 @@ extents = Vector2( 9.05445, 1.12435 )
 
 extents = Vector2( 10, 11.3384 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=8]
 
 resource_name = "golpear"
 length = 0.2
@@ -82,6 +99,22 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=9]
+
+resource_name = "morir"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 5.65684, 0.138697 ),
+"update": 0,
+"values": [ 0.0, 90.0 ]
 }
 
 [node name="Juego" type="Node"]
@@ -167,6 +200,7 @@ limit_right = 1450
 
 [node name="animacion" type="AnimationPlayer" parent="pj1"]
 anims/golpear = SubResource( 3 )
+anims/morir = SubResource( 7 )
 
 [node name="cuerpo" type="Area2D" parent="pj1"]
 
@@ -204,7 +238,8 @@ scale = Vector2( 2.01238, 5.88869 )
 shape = SubResource( 5 )
 
 [node name="animacion" type="AnimationPlayer" parent="pj2"]
-anims/golpear = SubResource( 6 )
+anims/golpear = SubResource( 8 )
+anims/morir = SubResource( 9 )
 
 [node name="cuerpo" type="Area2D" parent="pj2"]
 
@@ -223,12 +258,31 @@ texture = ExtResource( 9 )
 vframes = 2
 
 [node name="capa1" type="TextureRect" parent="."]
-visible = false
 margin_left = -935.983
 margin_top = -315.062
 margin_right = 1464.02
 margin_bottom = 584.938
 texture = ExtResource( 10 )
 
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 2
+script = ExtResource( 11 )
+
+[node name="p1" type="ProgressBar" parent="HUD"]
+margin_left = 28.1837
+margin_top = 17.2207
+margin_right = 190.184
+margin_bottom = 31.2207
+value = 100.0
+
+[node name="p2" type="ProgressBar" parent="HUD"]
+margin_left = 808.0
+margin_top = 15.7576
+margin_right = 992.0
+margin_bottom = 29.7576
+value = 100.0
+
+[connection signal="vida_changed" from="pj1" to="HUD" method="_on_pj1_vida_changed"]
 [connection signal="body_entered" from="pj1/cuerpo" to="pj1" method="_on_cuerpo_body_entered"]
+[connection signal="vida_changed" from="pj2" to="HUD" method="_on_pj2_vida_changed"]
 [connection signal="body_entered" from="pj2/cuerpo" to="pj2" method="_on_cuerpo_body_entered"]

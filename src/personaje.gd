@@ -14,6 +14,10 @@ var velocidad = Vector2(0,0)
 var aceleracion = Vector2(0,0)
 var x
 
+#Variables del juego
+signal vida_changed
+var vida = 100
+
 enum ESTADO{
 	QUIETO,
 	SALTANDO,
@@ -27,13 +31,14 @@ var left = false
 var up = false
 	
 func _physics_process(delta):
-	get_acciones()
+	aceleracion = Vector2(0,0)
+	if vida > 0:
+		get_acciones()
 	acelerar()
 	move_and_slide(velocidad * delta,Vector2(0,-1))
 	
 	
 func get_acciones():
-	aceleracion = Vector2(0,0)
 	#Obtener movimiento horizontal
 	x = int(right) - int(left)
 	#Girar el Sprite
@@ -60,6 +65,11 @@ func golpear():
 	#estado = ESTADO.GOLPEANDO
 
 func golpeado(dir):
-	print('golpeado')
-	
+	vida -= 15
+	emit_signal("vida_changed", vida)
 	velocidad += Vector2(50000*dir, 0)
+	if vida <= 0:
+		morir()
+		
+func morir():
+	$animacion.play("morir")
